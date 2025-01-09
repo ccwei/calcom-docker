@@ -1,14 +1,14 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Build and push image to DockerHub
+name: Build image
 
 # Controls when the workflow will run
 on:
   push:
     branches:
-      - 'main'
+      - "main"
     tags:
-      - 'v*'
+      - "v*"
   # update on run of Update Calendso nightly submodule update
   workflow_run:
     workflows: ["Update Calendso"]
@@ -25,8 +25,8 @@ on:
 
 # Leaving in example for releases. Initially we simply push to 'latest'
 # on:
-  # release:
-    # types: [ created ]
+# release:
+# types: [ created ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -107,9 +107,9 @@ jobs:
             network=container:database
           buildkitd-flags: |
             --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host
-#           config-inline: |
-#             [worker.oci]
-#               max-parallelism = 1
+      #           config-inline: |
+      #             [worker.oci]
+      #               max-parallelism = 1
 
       - name: Build image
         id: docker_build
@@ -117,8 +117,8 @@ jobs:
         with:
           context: ./
           file: ./Dockerfile
-          load: true  # Load the image into the Docker daemon
-          push: false  # Do not push the image at this stage
+          load: true # Load the image into the Docker daemon
+          push: false # Do not push the image at this stage
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -169,31 +169,5 @@ jobs:
             kill $server_pid
             exit 1
         env:
-          NEXTAUTH_SECRET: 'EI4qqDpcfdvf4A+0aQEEx8JjHxHSy4uWiZw/F32K+pA='
-          CALENDSO_ENCRYPTION_KEY: '0zfLtY99wjeLnsM7qsa8xsT+Q0oSgnOL'
-
-      - name: Push image
-        id: docker_push
-        uses: docker/build-push-action@v5
-        with:
-          context: ./
-          file: ./Dockerfile
-          push: true
-          platforms: linux/amd64
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            NEXT_PUBLIC_WEBAPP_URL=${{ env.NEXT_PUBLIC_WEBAPP_URL }}
-            NEXT_PUBLIC_API_V2_URL=${{ env.NEXT_PUBLIC_API_V2_URL }}
-            NEXT_PUBLIC_LICENSE_CONSENT=${{ env.NEXT_PUBLIC_LICENSE_CONSENT }}
-            NEXT_PUBLIC_TELEMETRY_KEY=${{ env.NEXT_PUBLIC_TELEMETRY_KEY }}
-            DATABASE_URL=postgresql://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.DATABASE_HOST }}/${{ env.POSTGRES_DB }}
-            DATABASE_DIRECT_URL=postgresql://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.DATABASE_HOST }}/${{ env.POSTGRES_DB }}
-        if: ${{ !github.event.release.prerelease }}
-
-      - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
-
-      - name: Cleanup
-        run: |
-          docker compose down
+          NEXTAUTH_SECRET: "EI4qqDpcfdvf4A+0aQEEx8JjHxHSy4uWiZw/F32K+pA="
+          CALENDSO_ENCRYPTION_KEY: "0zfLtY99wjeLnsM7qsa8xsT+Q0oSgnOL"
