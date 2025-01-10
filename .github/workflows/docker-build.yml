@@ -62,6 +62,12 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: glowing-program-446110-a1
+          export_default_credentials: true
+
       # Configure Workload Identity Federation and generate an access token.
       #
       # See https://github.com/google-github-actions/auth for more options,
