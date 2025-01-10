@@ -23,6 +23,10 @@ on:
     #     description: 'Version to build'
     #     required: true
 
+permissions:
+  id-token: write
+  contents: read
+
 env:
   PROJECT_ID: "glowing-program-446110-a1"
   REGION: "asia-east1"
