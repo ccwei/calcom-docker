@@ -73,6 +73,9 @@ jobs:
           workload_identity_provider: "${{ env.WORKLOAD_IDENTITY_PROVIDER }}"
           project_id: glowing-program-446110-a1
 
+      - name: "Use gcloud CLI"
+        run: "gcloud info"
+
       - name: Git submodule update
         run: |
           git submodule update --init
@@ -174,12 +177,14 @@ jobs:
           NEXTAUTH_SECRET: "EI4qqDpcfdvf4A+0aQEEx8JjHxHSy4uWiZw/F32K+pA="
           CALENDSO_ENCRYPTION_KEY: "0zfLtY99wjeLnsM7qsa8xsT+Q0oSgnOL"
 
+      - name: Configure Docker Authentication
+        run: gcloud auth configure-docker asia-east1-docker.pkg.dev
+
       - name: "Push Container"
         run: |-
           docker push "${{ env.DOCKER_TAG }}"
-      - name: "Deploy to Cloud Run"
-        # END - Docker auth and build
 
+      - name: "Deploy to Cloud Run"
         uses: "google-github-actions/deploy-cloudrun@33553064113a37d688aa6937bacbdc481580be17" # google-github-actions/deploy-cloudrun@v2
         with:
           service: "${{ env.SERVICE }}"
