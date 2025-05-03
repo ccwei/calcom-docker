@@ -30,7 +30,7 @@ permissions:
 env:
   PROJECT_ID: "glowing-program-446110-a1"
   REGION: "asia-east1"
-  SERVICE: "calcom"
+  SERVICE: "sandbox-calcom"
   WORKLOAD_IDENTITY_PROVIDER: "projects/321630787341/locations/global/workloadIdentityPools/github/providers/my-repo"
   DOCKER_TAG: "asia-east1-docker.pkg.dev/glowing-program-446110-a1/cloud-run-source-deploy/calcom:latest"
 
